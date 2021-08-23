@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 #include <algorithm>
 
 /*
-如何直观的打印一颗二叉树
+介绍二叉树的序列化和反序列化
 */
 struct Node {
     Node(int v) : value(v) {
@@ -52,7 +53,67 @@ void printTree(struct Node *root) {
     std::cout << std::endl;
 }
 
-//g++ code_02.cpp  -o xxx -std=c++11
+std::string NONE = "#!";
+const char SPLIT = '!';
+
+std::string serializeByPre(struct Node *root) {
+    std::string str = "";
+
+    if (root == nullptr) {
+        return NONE;
+    }
+
+    str += std::to_string(root->value);
+    str += SPLIT;
+    str += serializeByPre(root->left);
+    str += serializeByPre(root->right);
+
+    return str;
+}
+
+struct Node * genTree(std::queue<std::string> &queue) {
+    if (queue.size() == 0) {
+        return nullptr;
+    }
+
+    std::string value = queue.front();
+
+    if (value == "#") {
+        queue.pop();
+        return nullptr;
+    }
+
+    struct Node *node = new struct Node(atoi(value.c_str()));
+    queue.pop();
+    node->left = genTree(queue);
+    node->right = genTree(queue);
+
+    return node;
+}
+
+struct Node * reconByPreString(std::string str) {
+    if (str.length() == 0) {
+        return nullptr;
+    }
+
+    std::queue<std::string> queue;
+
+    while (str.length() > 0) {
+        int pos = str.find(SPLIT);
+
+        if (pos == str.npos) {
+            std::cout << "Invalid serialize string" << std::endl;
+            return nullptr;
+        }
+
+        queue.push(str.substr(0, pos));
+        str = ((pos + 1) == str.length()) ? "" : str.substr(pos+1, str.length() - pos - 1);
+    }
+
+    return genTree(queue);
+}
+
+//g++ code_04.cpp  -o xxx -std=c++11 -g
 int main() {
     struct Node *root = new struct Node(5);
     root->left = new struct Node(3);
@@ -64,23 +125,13 @@ int main() {
     root->right->right = new struct Node(0);
     root->right->right->left = new struct Node(9);
     root->right->right->right = new struct Node(7);
-    std::vector<std::vector<char>> vec = {{' ',' ',' ',' ',' ',' ',' ',' ','5',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ','/',' ',' ',' ',' ',' ',' ',' ','\\',' ',' ',' '}, 
-                        {' ',' ',' ',' ','3',' ',' ',' ',' ',' ',' ',' ','8',' ',' ',' '},
-                        {' ',' ','/',' ',' ','\\',' ',' ',' ','/',' ',' ',' ','\\',' ',' '},
-                        {' ',' ','2',' ',' ','4',' ',' ',' ','1',' ',' ',' ','0',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ','/',' ',' ',' ','/',' ','\\',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ','6',' ',' ',' ','9',' ','7',' '}};
-    std::cout << "Binary Tree is :" << std::endl;
-    for (int i = 0; i < vec.size(); ++i) {
-        for (int j = 0; j < vec[0].size(); ++j) {
-            std::cout << vec[i][j];
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-
     printTree(root);
+
+    std::string str = serializeByPre(root);
+    std::cout << "serializeByPre: " << str << std::endl;
+
+    struct Node *node = reconByPreString(str);
+    printTree(node);
 
     return 0;
 }
