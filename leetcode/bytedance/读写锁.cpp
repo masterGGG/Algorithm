@@ -88,3 +88,42 @@ void spin_rwlock_unlock(struct spin_rwlock_t *lock) {
 int main() {
     return 0;
 }
+
+#include <iostream>
+#include <atomic>         // std::atomic
+#include <thread>         // std::thread, std::this_thread::yield
+#include <mutex>
+#include <condition_variable>
+
+static int LOCK_MAX = 10000;
+
+class RWLock {
+public:
+    RWLock() : capacity(atomic<int>(LOCK_MAX)) {}
+
+    int rlock() {
+        unique_lock<mutex> rlock(rmtx);
+
+        locker.unlock();
+    }
+
+    int wlock() {
+        unique_lock<mutex> wlock(wmtx);
+
+        while (capacity < LOCK_MAX) {
+            cond.wait(wlock);
+        }
+
+        type.store(1, std::memory_order_relaxed);
+        capacity.store(0, std::memory_order_relaxed);
+        locker.unlock();
+    }
+
+    int unlock() {}
+private:
+    mutex               rmtx;
+    mutex               rmtx;
+    condition_variable  cond;
+    atomic<int>         capacity;
+    atomic<int>         type;
+};
