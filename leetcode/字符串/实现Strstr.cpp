@@ -30,10 +30,6 @@ public:
             return -1;
         }
 
-char *src = (char *)haystack.c_str();
-char *dst = (char *)needle.c_str();
-char *p = strstr(src, dst);
-return p ? p - src : -1;
         int pos = 0;
         int tail = haystack.length() - needle.length() + 1;
 
