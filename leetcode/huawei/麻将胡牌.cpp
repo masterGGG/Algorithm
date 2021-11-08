@@ -32,7 +32,14 @@ C字符串，“yes"或者"no”
 
 bool isWin(std::vector<int> vec, int pos, int len);
 
+/*
+ * 获取指定值的牌所在的位置，不存在返回-1
+ */
 int getIndex(std::vector<int> vec, int pos, int key) {
+  if (pos < 1) {
+    return -1;
+  }
+
   while (pos < vec.size()) {
     if (vec[pos] == key) {
       return pos;
@@ -44,38 +51,65 @@ int getIndex(std::vector<int> vec, int pos, int key) {
   return -1;
 }
 
+/*
+ * 2. 去除当前位置值的有效顺子，无效则返回false
+ */
 bool siftOrder(std::vector<int> vec, int pos, int len) {
   if (len == 3) {
+    //  2.1 刚好只剩当前顺子，能胡牌，返回true
     return vec[pos + 1] == vec[pos] + 1 && vec[pos + 2] == vec[pos] + 2;
   } else if (len > 3) {
     int first = pos, second, third;
     second = getIndex(vec, pos + 1, vec[pos] + 1);
-    third = getIndex(vec, pos + 2, vec[pos] + 2);
+    third = getIndex(vec, second + 1, vec[pos] + 2);
 
-    if (second == -1 || third == -1) {
+    if (third == -1) {
+      // 2.2 当前位置无法形成有效顺子，不能胡牌，返回false
+      // 例如: 1,3,4;  2,3,5
       return false;
     }
 
+    // 移除有效顺子
+    //          |->................->| 
+    //          |      |->................->|          
+    //          |      |              ->................->|   
+    //          |      |             |      V             V        
+    //   2      2      2      3      3      3      4      4
+    //   |                    |                    |
+    // first                second               third
     vec[third] = vec[second];
     vec[second] = vec[pos];
     vec[second + 1] = vec[pos];
 
+    // 2.3 当前位置形成有效顺子，检查剩余序列
     return isWin(vec, pos + 3, len - 3);
   }
   
   return false;
 }
 
+/*
+ * 1. 去除当前位置值的有效刻字，无效则返回false
+ */
 bool siftTriple(std::vector<int> vec, int pos, int len) {
   if (len > 2 && vec[pos] == vec[pos + 2]) {
+    // 存在有效刻字，此时存在两种情况：
+    //  1.1 刚好只剩当前刻字，能胡牌，返回true
+    //  1.2 还有剩余序列，检查剩余序列
     return len == 3 ? true : isWin(vec, pos + 3, len - 3);
   }
 
   return false;
 }
 
+/*
+ * 3. 去除当前位置值的有效对字，无效则返回false
+ */
 bool siftPair(std::vector<int> vec, int pos, int len) {
   if (len > 1 && vec[pos + 1] == vec[pos]) {
+    // 存在有效对子，此时存在两种情况：
+    //  3.1 刚好只剩当前对子，能胡牌，返回true
+    //  3.2 还有剩余序列，检查剩余序列
     return len == 2 ? true : isWin(vec, pos + 2, len - 2);
   }
 
@@ -83,16 +117,26 @@ bool siftPair(std::vector<int> vec, int pos, int len) {
 }
 
 bool isWin(std::vector<int> vec, int pos, int len) {
+  //从当前序列中去除一个有效序列，再对剩下来的序列进行有效性检验
+  //其中有效序列共分为三种情况：
+  //  1. 去除当前位置值的有效刻字，无效则返回false
+  //  2. 去除当前位置值的有效顺子，无效则返回false
+  //  3. 去除当前位置值的有效对字，无效则返回false
   return siftTriple(vec, pos, len) || siftOrder(vec, pos, len) || siftPair(vec, pos, len);
 }
 
 bool isWin(std::vector<int> vec) {
   if (vec.size() != 2 && vec.size() != 5 && vec.size() != 8 && 
       vec.size() != 11 && vec.size() != 14) {
+#ifdef DEBUG
     std::cout << "Invalid len " << vec.size() << " (must 2/5/8/11/14): " << std::endl;
+#endif
     return false;
   }
 
+#ifndef DEBUG
+  return isWin(vec, 0, vec.size());
+#else
   std::cout << "current serilization ";
   for (auto i : vec) {
     std::cout << i << " ";
@@ -105,9 +149,10 @@ bool isWin(std::vector<int> vec) {
 
   std::cout << "Loser!" << std::endl;
   return true;
+#endif
 }
 
-//g++ 麻将胡牌.cpp -o xxx -std=c++11
+//g++ 麻将胡牌.cpp -o xxx -std=c++11 -DDEBUG
 int main() {
   isWin({2, 2, 4, 4});
   isWin({2, 2, 4, 4, 4});
