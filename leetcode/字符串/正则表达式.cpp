@@ -104,6 +104,7 @@ public:
 
     //动态规划
     bool isMatch(string s, string p) {
+        //dp【i][j]表示s前i个元素和p前j个元素匹配情况
         vector<vector<int>> dp(s.length() + 1, vector<int>(p.length() + 1, false));
         auto match = [&](int i, int j) {
             if (i == 0) {
