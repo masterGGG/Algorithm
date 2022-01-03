@@ -5,12 +5,12 @@
 示例 1：
 输入：n = 3
 输出：["((()))","(()())","(())()","()(())","()()()"]
-示例 2：
-输入：n = 1
-输出：["()"]
-1 <= n <= 8
 */
 
+/*
+思路：生成的同时记录生成的左括号以及右括号数量
+左括号数量始终保持大于等于右括号就是有效的，
+*/
 class Solution {
 public:
     void generateParenthesis(vector<string> &res, string str, int left, int right, int n) {

@@ -10,34 +10,12 @@
   1->3->4,
   2->6
 ]
-将它们合并到一个有序链表中得到。
-1->1->2->3->4->4->5->6
-示例 2：
-输入：lists = []
-输出：[]
-示例 3：
-输入：lists = [[]]
-输出：[]
-
-提示：
-k == lists.length
-0 <= k <= 10^4
-0 <= lists[i].length <= 500
--10^4 <= lists[i][j] <= 10^4
-lists[i] 按 升序 排列
-lists[i].length 的总和不超过 10^4
-*/
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
  */
+
+
+/*
+思路：K个有序数组的队列，两两合并再压入队列尾部。
+*/
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
@@ -56,33 +34,6 @@ public:
 
         head2->next = mergeTwoLists(head1, head2->next);
         return head2;
-    }
-
-    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
-        if (head1 == nullptr) {
-            return head2;
-        } else if (head2 == nullptr) {
-            return head1;
-        }
-
-        ListNode head = ListNode(-1);
-        ListNode* tail = &head;
-
-        while (head1 && head2) {
-            if (head1->val < head2->val) {
-                tail->next = head1;
-                head1 = head1->next;
-            } else {
-                tail->next = head2;
-                head2 = head2->next;
-            }
-
-            tail = tail->next;
-        }
-
-        tail->next = head1 ? head1 : head2;
-        
-        return head.next;
     }
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -109,3 +60,31 @@ public:
         return queues.front();
     }
 };
+
+//迭代
+    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+        if (head1 == nullptr) {
+            return head2;
+        } else if (head2 == nullptr) {
+            return head1;
+        }
+
+        ListNode head = ListNode(-1);
+        ListNode* tail = &head;
+
+        while (head1 && head2) {
+            if (head1->val < head2->val) {
+                tail->next = head1;
+                head1 = head1->next;
+            } else {
+                tail->next = head2;
+                head2 = head2->next;
+            }
+
+            tail = tail->next;
+        }
+
+        tail->next = head1 ? head1 : head2;
+        
+        return head.next;
+    }

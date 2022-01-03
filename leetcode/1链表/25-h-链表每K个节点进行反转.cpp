@@ -10,31 +10,6 @@ k 是一个正整数，它的值小于或等于链表的长度。
 示例 1：
 输入：head = [1,2,3,4,5], k = 2
 输出：[2,1,4,3,5]
-示例 2：
-输入：head = [1,2,3,4,5], k = 3
-输出：[3,2,1,4,5]
-示例 3：
-输入：head = [1,2,3,4,5], k = 1
-输出：[1,2,3,4,5]
-示例 4：
-输入：head = [1], k = 1
-输出：[1]
-提示：
-列表中节点的数量在范围 sz 内
-1 <= sz <= 5000
-0 <= Node.val <= 1000
-1 <= k <= sz
-*/
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
  */
 class Solution {
 public:

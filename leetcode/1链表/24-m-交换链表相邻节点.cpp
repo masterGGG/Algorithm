@@ -5,27 +5,6 @@
 示例 1：
 输入：head = [1,2,3,4]
 输出：[2,1,4,3]
-示例 2：
-输入：head = []
-输出：[]
-示例 3：
-输入：head = [1]
-输出：[1]
-
-提示：
-链表中节点的数目在范围 [0, 100] 内
-0 <= Node.val <= 100
-*/
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
  */
 class Solution {
 public:

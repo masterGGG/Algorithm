@@ -1,0 +1,63 @@
+/*
+和为 K 的子数组
+给你一个整数数组 nums 和一个整数 k ，请你统计并返回该数组中和为 k 的连续子数组的个数。
+示例 1：
+输入：nums = [1,1,1], k = 2
+输出：2
+示例 2：
+输入：nums = [1,2,3], k = 3
+输出：2
+
+提示：
+1 <= nums.length <= 2 * 104
+-1000 <= nums[i] <= 1000
+-107 <= k <= 107
+*/
+
+class Solution {
+public:
+  int subarraySum(vector<int>& nums, int k) {
+    int count = 0;
+    int sum = 0;
+
+    for (int i = 0; i < nums.size(); ++i) {
+      sum = 0;
+      for (int j = 0; j < nums.size(); ++j) {
+        sum += nums[i];
+
+        if (sum == k) {
+          count++;
+        }
+      }
+    }
+
+    return count;
+  }
+
+  //前缀和 pre[i] - pre[j] = k
+  int subarraySum1(vector<int>& nums, int k) {
+    unordered_map<int, vector<int>> map_;   //key:前缀和， value：下标
+    int sum = 0;
+    int count = 0;
+
+    for (int i = 0; i < nums.size(); ++i) {
+      sum += nums[i];
+
+      if (sum == k) {
+        count++;
+      }
+
+      if (map_.find(sum - k) != map_.end()) {
+        count += map_[sum - k].size();
+      }
+
+      if (map_.find(sum) == map_.end()) {
+        map_[sum] = vector<int>(1, i);
+      } else {
+        map_[sum].push_back(i);
+      }
+    }
+
+    return count;
+  }
+};
