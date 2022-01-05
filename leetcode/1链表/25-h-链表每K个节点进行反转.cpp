@@ -11,46 +11,14 @@ k 是一个正整数，它的值小于或等于链表的长度。
 输入：head = [1,2,3,4,5], k = 2
 输出：[2,1,4,3,5]
  */
+
+/*
+思路：使用栈来保存K个节点指针，
+超过K个时，出栈构成翻转链表
+不足K个时，直接返回head即可
+*/
 class Solution {
 public:
-    ListNode* reverseK(ListNode* head, int k) {
-        ListNode *prev = nullptr, *cur = head, *next = nullptr;
-
-        while (k--) {
-            next = cur->next;
-            cur->next = prev;
-            prev = cur;
-            cur = next;
-        }
-
-        head->next = cur;
-
-        return prev;
-    }
-
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if (k == 1) {
-            return head;
-        }
-
-        int step = k;
-        ListNode *tail = head, *prev = nullptr;
-
-        while (step--) {
-            if (!tail) {
-                return head;
-            }
-
-            prev = tail;
-            tail = tail->next;
-        }
-
-        prev->next = reverseKGroup(tail, k);
-        head = reverseK(head, k);
-
-        return head;
-    }
-
     ListNode* reverseKGroup(ListNode* head, int k) {
         if (k == 1) {
             return head;

@@ -6,36 +6,33 @@
 输入：head = [1,2,3,3,4,4,5]
 输出：[1,2,5]
  */
+
+/*
+思路：双指针法+假头节点
+*/
 class Solution {
 public:
-  ListNode* deleteDuplicates(ListNode* head) {
-    if (head == nullptr || head->next == nullptr) {
-      return head;
-    }
-
-    ListNode *pprev = nullptr, *pcurr = head, *pnext = nullptr;
-
-    while (pcurr && pcurr->next) {
-      pnext = pcurr->next;
-
-      while (pnext && pnext->val == pcurr->val) {
-        pnext = pnext->next;  //过滤相等的结点，next指向下一个不等的结点。
-      }
-
-      if (pcurr->next != pnext) {
-        //存在相等的结点
-        if (!pprev) {
-          head = pnext;
-        } else {
-          pprev->next = pnext;
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (!head) {
+            return head;
         }
-      } else {
-        pprev = pcurr;
-      }
-    
-      pcurr = pnext;
-    }
+        
+        ListNode* fade = new ListNode(0, head);
+        ListNode* cur = fade;
 
-    return head;
-  }
+        //如果当前节点后存在至少2个节点，比较对应的值
+        while (cur->next && cur->next->next) {
+            //如果后续两个节点的值相等，将所有重复节点移除
+            if (cur->next->val == cur->next->next->val) {
+                int x = cur->next->val;
+                while (cur->next && cur->next->val == x) {
+                    cur->next = cur->next->next;
+                }
+            } else {
+                cur = cur->next;
+            }
+        }
+
+        return fade->next;
+    }
 };

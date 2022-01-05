@@ -6,6 +6,10 @@
 输入：head = [1,2,3,4]
 输出：[2,1,4,3]
  */
+
+/*
+思路：两两交换+递归处理
+*/
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {     

@@ -5,21 +5,13 @@
 示例 1:
 输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
 输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
-示例 2:
-输入: strs = [""]
-输出: [[""]]
-示例 3:
-输入: strs = ["a"]
-输出: [["a"]]
- 
-提示：
-1 <= strs.length <= 104
-0 <= strs[i].length <= 100
-strs[i] 仅包含小写字母
+*/
+
+/*
+思路：用hash值记录字符串，统计过的字符串加入哈希表中。
 */
 class Solution {
 public:
-#if 1
   int hash(string str) {
     int h = 0;
 
@@ -46,24 +38,4 @@ public:
 
     return vec_;
   }
-#else
-  vector<vector<string>> groupAnagrams(vector<string>& strs) {
-    std::unordered_map<std::string, int> map_;
-    std::vector<std::vector<std::string> > vec_;
-
-    for (auto str : strs) {
-      std::string sort_(str);
-      std::sort(sort_.begin(), sort_.end());
-
-      if (map_.find(sort_) == map_.end()) {
-        map_[sort_] = vec_.size();
-        vec_.emplace_back(std::vector<std::string>());
-      }
-
-      vec_[map_[sort_]].emplace_back(str);
-    }
-
-    return vec_;
-  }
-#endif
 };

@@ -4,6 +4,9 @@
 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
 */
 
+/*
+遍历+交换尾元素
+*/
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {

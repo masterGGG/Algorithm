@@ -50,4 +50,3 @@ public:
     return sortedArrayToBST(nums, 0, nums.size() - 1);
   }
 };
-//[-10,-3,0,5,9]

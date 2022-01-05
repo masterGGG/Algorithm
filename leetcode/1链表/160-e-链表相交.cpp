@@ -17,16 +17,12 @@ struct Node {
     struct Node *next;
 };
 
-void printList(struct Node *head) {
-    std::cout << "Linked List: ";
-
-    while (head) {
-        std::cout << head->value << ", ";
-        head = head->next;
-    }
-
-    std::cout << std::endl;
-}
+/*
+思路：
+1. 先判断两个链表是不是有环
+2. 无环，检查最后一个节点是不是相同
+3. 有环，环入口相同相交节点在环外，否则在环内
+*/
 
 struct Node *getLoopNode(struct Node *head) {
     if (head == nullptr) {
@@ -127,53 +123,10 @@ struct Node *getIntersectNode(struct Node *head1, struct Node *head2) {
 
     if (node1 == nullptr && node2 == nullptr) {
         res = getNoLoopNode(head1, head2);
-        std::cout << "NoLoop"<< std::endl;
     } else if (node1 != nullptr && node2 != nullptr) {
         res = getIntersectLoopNode(head1, node1, head2, node2);
-        std::cout << "Loop " << std::endl;
-    } else {
-        std::cout << "Not IntersectNode" << std::endl;
-    }
-
-    if (res) {
-        std::cout << "IntersectNode " << res->value << std::endl;
     }
 
     return res;
 }
 
-#if 0
-//g++ code_14.cpp  -o xxx -std=c++11
-int main() {
-    // 1->2->3->4->5->6->7->null
-    struct Node *head1 = nullptr;
-    head1 = new struct Node(1);
-    head1->next = new struct Node(2);
-    head1->next->next = new struct Node(3);
-    head1->next->next->next = new struct Node(4);
-    head1->next->next->next->next = new struct Node(5);
-    head1->next->next->next->next->next = new struct Node(6);
-    head1->next->next->next->next->next->next = new struct Node(7);
-
-    // 0->9->8->6->7->null
-    struct Node *head2 = nullptr;
-    head2 = new struct Node(0);
-    head2->next = new struct Node(9);
-    head2->next->next = new struct Node(8);
-    head2->next->next->next = head1->next->next->next->next->next; // 8->6
-
-    getIntersectNode(head1, head2);
-
-    // 1->2->3->4->5->6->7->4...
-    head1->next->next->next->next->next->next->next = head1->next->next->next; // 7->4
-    // 0->9->8->2...
-    head2->next->next->next = head1->next; // 8->2
-    getIntersectNode(head1, head2);
-
-    // 0->9->8->6->4->5->6..
-    head2->next->next->next = head1->next->next->next->next->next;// 8->6
-    getIntersectNode(head1, head2);
-
-    return 0;
-}
-#endif

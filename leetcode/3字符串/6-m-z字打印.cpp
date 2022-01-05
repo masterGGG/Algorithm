@@ -5,40 +5,7 @@ P   A   H   N
 A P L S I I G
 Y   I   R
 之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。
-
-请你实现这个将字符串进行指定行数变换的函数：
-string convert(string s, int numRows);
- 
-示例 1：
-输入：s = "PAYPALISHIRING", numRows = 3
-输出："PAHNAPLSIIGYIR"
-
-示例 2：
-输入：s = "PAYPALISHIRING", numRows = 4
-输出："PINALSIGYAHRPI"
-解释：
-P     I    N
-A   L S  I G
-Y A   H R
-P     I
-
-示例 3：
-输入：s = "A", numRows = 1
-输出："A"
-
-提示：
-1 <= s.length <= 1000
-s 由英文字母（小写和大写）、',' 和 '.' 组成
-1 <= numRows <= 1000
 */
-
-#include <iostream>
-#include <string>
-#include <queue>
-#include <vector>
-
-using namespace std;
-
 class Solution {
 public:
     string convert(string s, int numRows) {
@@ -117,16 +84,3 @@ public:
         return result;
     }
 };
-
-int main() {
-    Solution s;
-    cout << "PAYPALISHIRING" << endl << endl;
-    cout << s.convert("PAYPALISHIRING", 2) << endl;
-
-    cout << s.convert("PAYPALISHIRING", 3) << endl;
-    cout << "PAHNAPLSIIGYIR" << endl;
-    cout << s.convert("PAYPALISHIRING", 4) << endl;
-    cout << "PINALSIGYAHRPI" << endl;
-
-    return 0;
-}

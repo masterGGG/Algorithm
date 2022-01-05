@@ -10,12 +10,9 @@ nums[a] + nums[b] + nums[c] + nums[d] == target
 输出：[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
 */
 
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <algorithm>
-
-using namespace std;
+/*
+排序 + 双指针
+*/
 
 class Solution {
 public:
@@ -92,20 +89,3 @@ public:
         return res;
     }
 };
-
-int main() {
-    Solution s;
-    vector<int> vec = {1,0,-1,0,-2,2};
-
-    vector<vector<int>> res = s.fourSum(vec, 0);
-    for (auto vec : res) {
-        cout << "[";
-        for (auto it : vec) {
-            cout << it << " ";
-        }
-
-        cout << "], ";
-    }
-    cout << endl;
-    return 0;
-}

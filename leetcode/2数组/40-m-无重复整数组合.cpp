@@ -4,6 +4,10 @@ candidates 中的每个数字在每个组合中只能使用一次。
 注意：解集不能包含重复的组合。 
 */
 
+/*
+思路：排序+搜索回溯
+*/
+
 class Solution {
 private:
     vector<pair<int, int>> freq;

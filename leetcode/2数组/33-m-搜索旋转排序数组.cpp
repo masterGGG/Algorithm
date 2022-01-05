@@ -5,37 +5,37 @@
 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
 */
 
+/*
+二分查找
+*/
 class Solution {
 public:
-int search(std::vector<int>& nums, int target) {
-    int begin = 0, end = nums.size() - 1;
-
-    while (begin < end) {
-        if (nums[begin] == target) {
-            return begin;
-        } else if (nums[end] == target) {
-            return end;
-        } else if (end == begin + 1) {
+    int search(vector<int>& nums, int target) {
+        int n = (int)nums.size();
+        if (!n) {
             return -1;
         }
-
-        int mid = (begin + end) >> 1;
-
-        if (nums[mid] > nums[begin]) {
-            if (nums[mid] <= target || target <= nums[begin]) {
-                begin = mid;
+        if (n == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[0] <= nums[mid]) {
+                if (nums[0] <= target && target < nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
             } else {
-                end = mid;
-            }
-        } else {
-            if (target >= nums[begin] || target <= nums[mid]) {
-                end = mid;
-            } else {
-                begin = mid;
+                if (nums[mid] < target && target <= nums[n - 1]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
             }
         }
+        return -1;
     }
-
-    return nums[begin] == target ? begin : -1;
-}
 };

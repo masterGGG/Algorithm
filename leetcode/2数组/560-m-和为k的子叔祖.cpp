@@ -7,33 +7,15 @@
 示例 2：
 输入：nums = [1,2,3], k = 3
 输出：2
+*/
 
-提示：
-1 <= nums.length <= 2 * 104
--1000 <= nums[i] <= 1000
--107 <= k <= 107
+/*
+思路：遍历时统计前i个数的和，并加入哈希标中
+后续遍历检查
 */
 
 class Solution {
 public:
-  int subarraySum(vector<int>& nums, int k) {
-    int count = 0;
-    int sum = 0;
-
-    for (int i = 0; i < nums.size(); ++i) {
-      sum = 0;
-      for (int j = 0; j < nums.size(); ++j) {
-        sum += nums[i];
-
-        if (sum == k) {
-          count++;
-        }
-      }
-    }
-
-    return count;
-  }
-
   //前缀和 pre[i] - pre[j] = k
   int subarraySum1(vector<int>& nums, int k) {
     unordered_map<int, vector<int>> map_;   //key:前缀和， value：下标

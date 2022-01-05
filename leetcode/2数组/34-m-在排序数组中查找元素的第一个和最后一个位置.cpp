@@ -7,48 +7,34 @@
 示例 1：
 输入：nums = [5,7,7,8,8,10], target = 8
 输出：[3,4]*/
-#include <vector>
-#include <iostream>
 
-class Solution {
+/*
+思路：二分查找
+找到第一个大于等于target的元素，以及第一个大于target的元素
+*/
+
+class Solution { 
 public:
-  int binarySearch(std::vector<int>& nums, int head, int tail, int target, bool first) {
-    while (head < tail) {
-      int mid = (head + tail) >> 1;
-
-      if (nums[mid] < target) {
-        head = mid + 1;/// 如果中间结点小于target，那么直接将head索引向后移动至mid+1位置
-      } else if (nums[mid] > target) {
-        tail = mid;/// 如果中间结点大于target，将tail结点前移至mid位置
-      } else {
-        if (first) {
-          tail = mid;/// 查询第一个等于target的索引，将tail索引前移至mid，继续检索前半个区间
-        } else {
-          if (head == mid) {
-            head = nums[tail] == target ? tail : head;
-            break;
-          }
-
-          head = mid;/// 查询最后一个等于target的索引，将head索引向后移至mid位置
+    int binarySearch(vector<int>& nums, int target, bool lower) {
+        int left = 0, right = (int)nums.size() - 1, ans = (int)nums.size();
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > target || (lower && nums[mid] >= target)) {
+                right = mid - 1;
+                ans = mid;
+            } else {
+                left = mid + 1;
+            }
         }
-      }
+        return ans;
     }
-    
-    //head索引记录了第一个/最后一个等于target的数
-    return nums[head] == target ? head : -1;
-  }
-  std::vector<int> searchRange(std::vector<int>& nums, int target) {
-    std::vector<int> vec(2, -1);
 
-    if (nums.size() == 0 || target < nums[0] || target > nums[nums.size() - 1]) {
-      return std::vector<int>(2, -1);
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int leftIdx = binarySearch(nums, target, true);
+        int rightIdx = binarySearch(nums, target, false) - 1;
+        if (leftIdx <= rightIdx && rightIdx < nums.size() && nums[leftIdx] == target && nums[rightIdx] == target) {
+            return vector<int>{leftIdx, rightIdx};
+        } 
+        return vector<int>{-1, -1};
     }
-    
-    //先找第一个大于等于target的索引
-    vec[0] = binarySearch(nums, 0, nums.size() - 1, target, true);
-    //获取第一个大于target的索引
-    vec[1] = vec[0] == -1 ? -1 : binarySearch(nums,  vec[0], nums.size() - 1, target, false);
-
-    return vec;
-  }
 };
