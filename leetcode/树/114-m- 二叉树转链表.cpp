@@ -4,18 +4,6 @@
 展开后的单链表应该与二叉树 先序遍历 顺序相同。
 进阶：你可以使用原地算法（O(1) 额外空间）展开这棵树吗？*/
 
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-
 /*
 思路：将右子树挂到左子树的最右节点之后
 左子树变为右子树

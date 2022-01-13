@@ -6,6 +6,9 @@
 所有左子树和右子树自身必须也是二叉搜索树。
 */
 
+/*
+思路：中序遍历有序
+*/
 class Solution {
 public:
     void SeriliazeBST(TreeNode* root, deque<int> &queue) {

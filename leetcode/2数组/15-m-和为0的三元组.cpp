@@ -10,6 +10,50 @@
 //排序 + 双指针
 class Solution {
 public:
+    void thresHelper(vector<int>& nums, int pos, int target, vector<vector<int>>& res) {
+        int head = pos + 1;
+        int tail = nums.size() - 1;
+
+        while (head < tail) {
+            int sum = nums[head] + nums[tail];
+
+            if (sum < target) {
+                head++;
+
+                while (nums[head] == nums[head-1]) {
+                    head++;
+                }
+            } else if (sum > target) {
+                tail--;
+
+                while (nums[tail] == nums[tail+1]) {
+                    tail--;
+                }
+            } else {
+                res.emplace_back(vector<int>{nums[pos], nums[head], nums[tail]});
+                head++;
+
+                while (nums[head] == nums[head-1]) {
+                    head++;
+                }
+            }
+        }
+    }
+
+    vector<vector<int>> thres(vector<int> nums) {
+        vector<vector<int>> res;
+        sort(nums.begin(), nums.end());
+
+        for (int i = 0; i < nums.size() - 2; ++i) {
+            if (i > 0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+
+            thresHelper(nums, i, 0 - nums[i], res);
+        }
+
+        return res;
+    }
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n = nums.size();
         sort(nums.begin(), nums.end());
