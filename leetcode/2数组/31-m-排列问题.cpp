@@ -3,28 +3,11 @@
 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
 必须 原地 修改，只允许使用额外常数空间。
 
-示例 1：
-输入：nums = [1,2,3]
-输出：[1,3,2]
-示例 2：
-输入：nums = [3,2,1]
-输出：[1,2,3]
-示例 3：
-输入：nums = [1,1,5]
-输出：[1,5,1]
-示例 4：
-输入：nums = [1]
-输出：[1]
-
-提示：
-1 <= nums.length <= 100
-0 <= nums[i] <= 100
+思路：找到一个大于当前序列的新序列，且变大的幅度尽可能小。
+1. 从后往前找到第一个非递增的元素
+2. 从后往前找到一个比1中非递增大的元素
+3. 交换1和2中的元素，重新排列1的后续元素
 */
-#include <vector>
-#include <iostream>
-#include <algorithm>
-
-using namespace std;
 
 class Solution {
 public:
@@ -39,7 +22,7 @@ public:
         }
 
         int pos = nums.size() - 2;
-
+        //1. 从后往前找到第一个非递增的元素
         for (; pos >= 0 && nums[pos] >= nums[pos + 1]; --pos) {
         }
 
@@ -47,9 +30,10 @@ public:
             sort(nums.begin(), nums.end());
             return;
         }
-
+        //2. 从后往前找到一个比1中非递增大的元素
         for (int bigger = nums.size() - 1; bigger > pos; --bigger) {
             if (nums[pos] < nums[bigger]) {
+                //3. 交换1和2中的元素，重新排列1的后续元素
                 swap(nums, pos, bigger);
                 sort(nums.begin() + pos + 1, nums.end());
                 break;
@@ -58,21 +42,4 @@ public:
     }
 };
 
-void show(vector<int> nums) {
-    for (auto i : nums) {
-        cout << i << " ";
-    }
-
-    cout << endl;
-}
-//g++ 31-m-排列问题.cpp -o xxx -std=c++11
-int main() {
-    Solution s;
-    vector<int> nums = {1,3,1};//{2,3,1};
-
-    cout << "Before "; show(nums);
-    s.nextPermutation(nums);
-    cout << "After  "; show(nums);
-
-    return 0;
-}
+2 3 1 4
