@@ -49,3 +49,43 @@ int main() {
 
   return 0;
 }
+
+#include <vector>
+
+class Solution {
+  void quickSort(std::vector<int>& vec, int left, int right) {
+    if (left >= right) {
+      return;
+    }
+
+    int povit = left + rand() % (right - left + 1);
+    std::swap(vec[left], vec[povit]);
+    int lpos = left + 1;
+    int rpos = right;
+
+    while (lpos < rpos) {
+      while (vec[lpos] <= vec[left] && lpos <= rpos) {
+        lpos++;
+      }
+
+      while (vec[rpos] > vec[left] && lpos <= rpos) {
+        rpos--;
+      }
+
+      if (lpos < rpos) {
+        std::swap(vec[lpos], vec[rpos]);
+        lpos++;
+        rpos--;
+      }
+    }
+
+    if (left != lpos) {
+      std::swap(vec[left], vec[lpos]);
+    }
+    quickSort(vec, left, rpos);
+    quickSort(vec, lpos + 1, right);
+  }
+  void quickSort(std::vector<int>& vec) {
+    quickSort(vec, 0, vec.size() - 1);
+  }
+};

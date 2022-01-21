@@ -22,4 +22,33 @@ public:
         }
         return res;
     }
+
+  /*mirris遍历*/
+  std::vector<int> inorderMirris(TreeNode* root) {
+    std::vector<int> res;
+    TreeNode* right = nullptr;
+
+    while (root) {
+      right = root->left;
+
+      if (right) {
+        while (right->right && right->right != root) {
+          right = right->right;
+        }
+
+        if (right->right == nullptr) {
+          right->right = root;
+          root = root->left;
+          continue;
+        } else {
+          right->right = nullptr;
+        }
+      }
+        
+      res.emplace_back(root->val);
+      root = root->right;
+    }
+
+    return res;
+  }
 };
