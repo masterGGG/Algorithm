@@ -3,7 +3,6 @@
 遍历时统计前i个数的和，并加入哈希标中
 后续遍历检查，检查pre[i] - target的前缀和是否存在
 */
-
 class Solution {
 public:
   //前缀和 pre[i] - pre[j] = k
@@ -33,7 +32,6 @@ public:
     return count;
   }
 };
-
 /*
 和为 K 的子数组
 给你一个整数数组 nums 和一个整数 k ，请你统计并返回该数组中和为 k 的连续子数组的个数。

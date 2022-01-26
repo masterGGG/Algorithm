@@ -1,4 +1,8 @@
-//排序 + 双指针
+/*
+排序 + 双指针
+时间复杂度：O(N^2)  其中 N 是数组 nums 的长度。
+空间复杂度：O(log N)
+*/
 class Solution {
 public:
     void thresHelper(vector<int>& nums, int pos, int target, vector<vector<int>>& res) {
@@ -83,7 +87,8 @@ public:
 };
 
 /*
-给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。
+返回这三个数的和。假定每组输入只存在唯一答案。
 
 示例：
 输入：nums = [-1,2,1,-4], target = 1
